@@ -13,4 +13,9 @@ public sealed class GameServerProtocol : IProtocol
     {
         return Task.CompletedTask;
     }
+
+    public Task OnPacketReceivedAsync(ISession session, ReadOnlyMemory<byte> packetBuffer)
+    {
+        return Task.CompletedTask;
+    }
 }

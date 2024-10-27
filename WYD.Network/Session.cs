@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Buffers;
 using System.Net.Sockets;
+using WYD.Network.Criptography;
 
 namespace WYD.Network;
 
@@ -71,7 +72,13 @@ public sealed class Session : ISession
         {
             var packetBuffer = await ReadPacketAsync();
 
-            // TODO: Decrypt packet
+            if (!PacketCriptography.Decrypt(packetBuffer))
+            {
+                _logger.LogError("Failed to decrypt packet");
+                break;
+            }
+
+            await _protocol.OnPacketReceivedAsync(this, packetBuffer);
         }
     }
 
@@ -88,18 +95,17 @@ public sealed class Session : ISession
 
     private async Task<byte[]> ReadPacketAsync()
     {
-        const int HeaderLength = 2;
-        const int MinimumPacketSize = 12;
-
-        await ReceiveAsync(HeaderLength);
+        const int headerLength = 2;
+        
+        await ReceiveAsync(headerLength);
 
         var packetSize = BitConverter.ToUInt16(_receiveBuffer, 0);
-        if (packetSize < MinimumPacketSize)
+        if (packetSize < PacketConstants.MinimumPacketSize)
         {
             throw new InvalidOperationException("Packet size is smaller than the minimum packet size");
         }
 
-        await ReceiveAsync(packetSize - HeaderLength, offset: HeaderLength);
+        await ReceiveAsync(packetSize - headerLength, offset: headerLength);
 
         var packetBuffer = new byte[packetSize];
         Buffer.BlockCopy(_receiveBuffer, 0, packetBuffer, 0, packetSize);
