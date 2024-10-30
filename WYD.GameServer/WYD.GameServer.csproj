@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WYD.Infrastructure\WYD.Infrastructure.csproj" />
     <ProjectReference Include="..\WYD.Network\WYD.Network.csproj" />
   </ItemGroup>
 

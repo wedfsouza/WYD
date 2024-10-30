@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WYD.Network", "WYD.Network\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WYD.Network.UnitTests", "WYD.Network.UnitTests\WYD.Network.UnitTests.csproj", "{B68BD445-41B6-4E72-8ADB-A4599D9CF21A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WYD.Infrastructure", "WYD.Infrastructure\WYD.Infrastructure.csproj", "{B6826426-F5B0-4562-B39D-8E5CFE7CC330}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B68BD445-41B6-4E72-8ADB-A4599D9CF21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B68BD445-41B6-4E72-8ADB-A4599D9CF21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B68BD445-41B6-4E72-8ADB-A4599D9CF21A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6826426-F5B0-4562-B39D-8E5CFE7CC330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6826426-F5B0-4562-B39D-8E5CFE7CC330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6826426-F5B0-4562-B39D-8E5CFE7CC330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6826426-F5B0-4562-B39D-8E5CFE7CC330}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
