@@ -38,4 +38,36 @@ public class IncomingPacketTests
         Assert.Equal(1, incomingPacket.ClientId);
         Assert.Equal(40746305, (int)incomingPacket.Timestamp);
     }
+
+    [Fact]
+    public void IncomingPacket_WhenReadingFixedString_ReturnsStringUpToNullTerminator()
+    {
+        var textBytes = "Hello\0World"u8.ToArray();
+        var packetSize = PacketConstants.MinimumPacketSize;
+        var buffer = new byte[packetSize + textBytes.Length];
+        
+        textBytes.CopyTo(buffer.AsSpan().Slice(start: packetSize, textBytes.Length));
+        
+        var incomingPacket = new IncomingPacket(buffer);
+        var result = incomingPacket.ReadFixedString(textBytes.Length);
+        
+        Assert.Equal("Hello", result);
+    }
+
+    [Fact]
+    public void IncomingPacket_WhenFixedStringIsNotNullTerminated_ThrowsException()
+    {
+        var textBytes = "Hello World"u8.ToArray();
+        var packetSize = PacketConstants.MinimumPacketSize;
+        var buffer = new byte[packetSize + textBytes.Length];
+        
+        textBytes.CopyTo(buffer.AsSpan().Slice(start: packetSize, textBytes.Length));
+        
+        var incomingPacket = new IncomingPacket(buffer);
+        
+        var exception =
+            Assert.Throws<InvalidOperationException>(() => incomingPacket.ReadFixedString(textBytes.Length));
+        
+        Assert.Equal("Null terminator is required but not found", exception.Message);
+    }
 }

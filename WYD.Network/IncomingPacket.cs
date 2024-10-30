@@ -1,4 +1,5 @@
 using System.Buffers.Binary;
+using System.Text;
 
 namespace WYD.Network;
 
@@ -51,6 +52,19 @@ public sealed class IncomingPacket
     {
         var span = ReadSpan(sizeof(uint));
         return BinaryPrimitives.ReadUInt32LittleEndian(span);
+    }
+
+    public string ReadFixedString(int length)
+    {
+        var span = ReadSpan(length);
+
+        var nullIndex = span.IndexOf((byte)0);
+        if (nullIndex == -1)
+        {
+            throw new InvalidOperationException("Null terminator is required but not found");
+        }
+        
+        return Encoding.UTF8.GetString(span.Slice(0, nullIndex));
     }
     
     private ReadOnlySpan<byte> ReadSpan(int length)
