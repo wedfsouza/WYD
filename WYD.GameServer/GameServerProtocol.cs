@@ -5,11 +5,13 @@ namespace WYD.GameServer;
 
 public sealed class GameServerProtocol(IGameServerSessionHandler gameServerSessionHandler, ITaskProducer taskProducer) : IProtocol
 {
-    public Task OnConnectedAsync(ISession session)
+    public Task OnAcceptedAsync(ISession session)
     {
-        taskProducer.Write(() => gameServerSessionHandler.OnConnectedAsync(session));
+        taskProducer.Write(() => gameServerSessionHandler.OnAcceptedAsync(session));
         return Task.CompletedTask;
     }
+
+    public Task OnConnectedAsync(ISession session) => Task.CompletedTask;
 
     public Task OnDisconnectedAsync(ISession session)
     {

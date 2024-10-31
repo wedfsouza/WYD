@@ -17,7 +17,7 @@ public class TaskConsumer(ILoggerFactory loggerFactory, TaskChannel taskChannel)
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occured while executing the task");
+                _logger.LogError(ex, "An error occurred while executing the task");
             }
         }
     }

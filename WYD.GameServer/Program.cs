@@ -10,6 +10,7 @@ builder.Services.AddSingleton<TaskChannel>();
 builder.Services.AddSingleton<ITaskProducer, TaskProducer>();
 builder.Services.AddHostedService<TaskConsumer>();
 
+builder.Services.AddSingleton<GameServerUserManager>();
 builder.Services.AddSingleton<IGameServerSessionHandler, GameServerSessionHandler>();
 
 builder.Services.AddSingleton(serviceProvider =>
@@ -21,6 +22,13 @@ builder.Services.AddSingleton(serviceProvider =>
 
     return new GameServerListener("127.0.0.1", 8281, protocol, loggerFactory);
 });
+
+var packetHandlerTypes = GameIncomingPacketHandlers.GetAll().Values;
+
+foreach (var packetHandlerType in packetHandlerTypes)
+{
+    builder.Services.AddScoped(packetHandlerType);
+}
 
 var host = builder.Build();
 

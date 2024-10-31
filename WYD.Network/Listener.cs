@@ -31,7 +31,7 @@ public abstract class Listener : IListener
             var acceptedSocket = await _socket.AcceptAsync();
             var session = new Session(acceptedSocket, _protocol, _loggerFactory);
 
-            _ = Task.Run(session.RunAsync);
+            await _protocol.OnAcceptedAsync(session);
         }
     }
 }

@@ -20,7 +20,14 @@ public sealed class Session : ISession
         _logger = loggerFactory.CreateLogger<Session>();
         _receiveBuffer = _bufferPool.Rent(256);
     }
+    
+    public int Id { get; private set; }
 
+    public void AssignSessionId(int id)
+    {
+        Id = id;
+    }
+    
     public async Task RunAsync()
     {
         try
@@ -45,7 +52,7 @@ public sealed class Session : ISession
         }
     }
 
-    private async Task DisconnectAsync()
+    public async Task DisconnectAsync()
     {
         try
         {
